@@ -236,7 +236,7 @@ void Parser::GetTotalNumOfPairs()
 {
     for (int i = 0; i < userString.size(); i++)
     {
-        if (userString[i] == userString[i+1])
+        if ((userString[i] == userString[i+1]) && isalpha(userString[i]))
         {
             ++totalNumPairs;
         }
