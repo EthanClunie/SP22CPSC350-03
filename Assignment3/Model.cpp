@@ -205,6 +205,11 @@ string Model::translateDoubleCharacter(char cc)
     {
         doubleCharEncoding = "squa";
     }
+    
+    if (isupper(cc))
+    {
+        doubleCharEncoding[0] = toupper(doubleCharEncoding[0]);
+    }
 
     return doubleCharEncoding;
 }
