@@ -195,15 +195,19 @@ string Model::translateDoubleCharacter(char cc)
     // add code to describe scenario for letter pairs
     // if vowel -> add prefix "squat" then repeat vowel "oo" becomes "squato"
     // if consonant -> add prefix "squa" then converted consonant "ll" becomes "squatlul"
-    string doubleCharEncoding;
+    string doubleCharEncoding = "";
 
-    if (isVowel(cc))
+    if (isVowel(cc) && isalpha(cc))
     {
         doubleCharEncoding = "squat";
     }
-    else
+    else if (isalpha(cc))
     {
         doubleCharEncoding = "squa";
+    }
+    else
+    {
+        doubleCharEncoding += cc;
     }
     
     if (isupper(cc))
