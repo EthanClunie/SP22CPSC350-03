@@ -2,7 +2,6 @@
 Header file for FileIO class.
 Contains the function definitions and any necessary private members
 */
-#include <fstream>
 #include <string>
 
 using namespace std;

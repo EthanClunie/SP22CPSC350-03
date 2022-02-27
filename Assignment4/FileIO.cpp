@@ -1,6 +1,8 @@
 /*
 
 */
+#include <fstream>
+
 #include "FileIO.h"
 
 using namespace std;
@@ -30,6 +32,7 @@ FileIO::~FileIO()
  */
 string FileIO::LoadMapFile(string inputMapFile)
 {
+    ifstream inFile(inputMapFile, ios::in);
 
 }
 
@@ -41,5 +44,7 @@ string FileIO::LoadMapFile(string inputMapFile)
  */
 void FileIO::SaveCurrentState(char **currGameState)
 {
+    string outputFileName = "save.txt";
+    ofstream outFile(outputFileName, ios::out);
 
 }

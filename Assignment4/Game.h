@@ -21,8 +21,12 @@ class Game
 
         void GetNumRowsAndColumns();
         void InitGrid();
+        void DisplayGrid();
         double CheckValidInitWorldPop(double population);
+        void SwapGridPointer(char **Grid1, char **Grid2);
 
         short FindNumNeighbors();
+        void DensityPlacement(double popDensity);
+        bool AllDead();
         bool HasStagnated();
 };

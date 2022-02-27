@@ -2,7 +2,9 @@
 
 */
 #include <iostream>
-
+#include <stdlib.h>
+#include <string>
+#include <time.h>
 #include "Game.h"
 #include "FileIO.h"
 
@@ -15,6 +17,7 @@ using namespace std;
  */
 Game::Game()
 {
+    GetNumRowsAndColumns();
     InitGrid();
 }
 
@@ -55,12 +58,12 @@ void Game::GetNumRowsAndColumns()
  */
 void Game::InitGrid()
 {
-    GetNumRowsAndColumns();
-
     // Allocated array of 3 pointers to char in heap memory
     this->gameGrid = new char* [numRows];
-    for (int i = 0; i < this->numRows; ++i) {
-        this->gameGrid[i] = new char[this->numColumns];  //Allocate an array of 3 characters
+    this->copyGrid = new char* [numRows];
+    for (int iRow = 0; iRow < this->numRows; ++iRow) {
+        this->gameGrid[iRow] = new char[this->numColumns];  //Allocate an array of 3 characters
+        this->copyGrid[iRow] = new char[this->numColumns];
     }
 
     // assign '~' to element of 2-D array a_cGrid indexed by iRow and iColumn
@@ -68,7 +71,8 @@ void Game::InitGrid()
 	{
 		for (int iColumn = 0; iColumn < this->numColumns; ++iColumn)
 		{
-			this->gameGrid[iRow][iColumn] = '~';
+			this->gameGrid[iRow][iColumn] = '-';
+            this->copyGrid[iRow][iColumn] = '-';
 		}
 	}
 }
@@ -80,6 +84,9 @@ void Game::InitGrid()
  */
 void Game::Play()
 {
+    // TEST STUFF
+    DisplayGrid();
+
     FileIO fileHandler;
 
     string userWorldChoice;
@@ -87,7 +94,7 @@ void Game::Play()
     double initWorldPopulation;
 
     cout << "Would you like to provide a map file for the simulated world or a random assignment?" << endl;
-    cout << "Provide a file name with .txt. Anything else will be treated as desiring a random assignment: " << endl;
+    cout << "Provide a file name with \".txt\". Anything else will be treated as desiring a random assignment: " << endl;
     cin >> userWorldChoice;
 
     // Checks if the input for userWorldChoice contained .txt. If yes, use it as a map. If not, random game.
@@ -95,22 +102,58 @@ void Game::Play()
     
     cout << foundTxt << endl;
 
-    if (foundTxt == -1) // Random game assignment
+    if (foundTxt == -1)
     {
+        // Random game assignment
 
     }
-    else                // Use input as map file for simulated world
+    else
     {
+        // Use input as map file for simulated world
 
     }
 
+    // Obtains a valid input value for the initial world population density
     cout << "Provide a decimal value for initial population density of the world (0 < population <= 1):" << endl;
     cin >> initWorldPopulation;
-
+    
+    TODO:
+    // handle potential errors w/ input
     if ((initWorldPopulation <= 0) || !(initWorldPopulation > 1))
     {
         initWorldPopulation = CheckValidInitWorldPop(initWorldPopulation);
     }
+
+    DensityPlacement(initWorldPopulation);
+    DisplayGrid();
+
+    // Checks game rules/end conditions
+    if (AllDead() || HasStagnated())
+    {
+        // Halt the simulation
+
+        
+
+        TODO:
+        // Prompt the user to press "ENTER" to exit
+        char exitChar;
+        
+        while (true)
+        {
+            cout << "Press the ENTER key to exit the simulation." << endl;
+            // cin.ignore();
+            cin >> exitChar;
+
+            if (exitChar == 'r')
+            {
+                break;
+            }
+
+        }
+
+    }
+
+    return;
 }
 
 /**
@@ -132,9 +175,61 @@ double Game::CheckValidInitWorldPop(double population)
 }
 
 /**
+ * SwapGridPointers
+ * @brief Swaps the pointers between the two grids of the game at the end of each generation
+ * 
+ */
+void Game::SwapGridPointer(char **Grid1, char **Grid2)
+{
+    char temp = **Grid1;
+    **Grid1 = **Grid2;
+    **Grid2 = temp;
+   
+    return;
+}
+
+/**
+ * AllDead
+ * @brief Checks if all grid spaces are "-".
+ * If so, return true; else, return false;
+ * 
+ * @return true 
+ * @return false 
+ */
+bool Game::AllDead()
+{
+    bool allDead;
+    short numEmptyLocations = 0;
+    short totalNumLocations = (numRows * numColumns);
+
+    // Checks if all locations of previous grid are same as those of current grid
+    for (int iRow = 0; iRow < this->numRows; ++iRow)
+    {
+        for (int iColumn = 0; iColumn < this->numColumns; ++iColumn)
+        {
+            if (this->gameGrid[iRow][iColumn] == '-') 
+            {
+                ++numEmptyLocations;
+            }
+        }
+    }
+
+    if (numEmptyLocations == totalNumLocations)
+    {
+        allDead = true;
+    }
+    else
+    {
+        allDead = false;
+    }
+
+    return allDead;
+}
+
+/**
  * HasStagnated
  * @brief Checks if the current game state has stagnated.
- * True if either: the previous gen is the same as current gen or if everything has done.
+ * True if the previous gen is the same as current gen
  * False if not.
  * 
  * @return true 
@@ -142,5 +237,83 @@ double Game::CheckValidInitWorldPop(double population)
  */
 bool Game::HasStagnated()
 {
+    bool hasStagnated;
+    short numSameLocations = 0;
+    short totalNumLocations = (numRows * numColumns);
 
+    // Checks if all locations of previous grid are same as those of current grid
+    for (int iRow = 0; iRow < this->numRows; ++iRow)
+    {
+        for (int iColumn = 0; iColumn < this->numColumns; ++iColumn)
+        {
+            if (this->gameGrid[iRow][iColumn] == this->copyGrid[iRow][iColumn]) 
+            {
+                ++numSameLocations;
+            }
+        }
+    }
+
+    if (numSameLocations == totalNumLocations)
+    {
+        hasStagnated = true;
+    }
+    else
+    {
+        hasStagnated = false;
+    }
+
+    return hasStagnated;
+}
+
+/**
+ * DensityPlacement
+ * @brief Takes in a user input for population density and finds random
+ * positions for the initial populated grid locations
+ * 
+ * @param popDensity 
+ */
+void Game::DensityPlacement(double popDensity)
+{
+    int randomNum;
+    srand(time(NULL));
+
+    int maxVal = 10;
+    int densityNum = popDensity * 10;
+
+    for (int iRow = 0; iRow < this->numRows; ++iRow)
+    {
+        for (int iColumn = 0; iColumn < this->numColumns; ++iColumn)
+        {
+            randomNum = rand() % maxVal;
+
+            if (randomNum < densityNum)
+            {
+                this->gameGrid[iRow][iColumn] = 'X';
+            }
+            else 
+            {
+                this->gameGrid[iRow][iColumn] = '-';
+            }
+        }
+    }
+}
+
+/**
+ * DisplayGrid
+ * @brief Displays the current grid
+ * 
+ * @param gridToDisplay 
+ */
+void Game::DisplayGrid()
+{
+    cout << endl;
+	for (int iRow = 0; iRow < this->numRows; iRow++)
+	{
+		for (int iColumn = 0; iColumn < this->numColumns; iColumn++)
+		{
+			cout << this->gameGrid[iRow][iColumn];
+		}
+		cout << endl;
+	}
+    cout << endl;
 }
