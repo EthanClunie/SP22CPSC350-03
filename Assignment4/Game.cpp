@@ -134,7 +134,7 @@ void Game::Play()
 
         
 
-        TODO:
+        TODO2:
         // Prompt the user to press "ENTER" to exit
         char exitChar;
         

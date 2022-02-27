@@ -25,7 +25,7 @@ class Game
         double CheckValidInitWorldPop(double population);
         void SwapGridPointer(char **Grid1, char **Grid2);
 
-        short FindNumNeighbors();
+        short FindNumNeighbors() {} //no implementation in this class
         void DensityPlacement(double popDensity);
         bool AllDead();
         bool HasStagnated();
