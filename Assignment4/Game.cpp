@@ -117,7 +117,7 @@ void Game::Play()
     cout << "Provide a decimal value for initial population density of the world (0 < population <= 1):" << endl;
     cin >> initWorldPopulation;
     
-    TODO:
+    TODO1:
     // handle potential errors w/ input
     if ((initWorldPopulation <= 0) || !(initWorldPopulation > 1))
     {
