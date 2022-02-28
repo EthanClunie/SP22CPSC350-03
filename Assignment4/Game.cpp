@@ -118,7 +118,7 @@ void Game::Play()
     cin >> initWorldPopulation;
     
     TODO1:
-    // handle potential errors w/ input
+    // handle potential errors w/ input as non-numbers (chars or strings)
     if ((initWorldPopulation <= 0) || !(initWorldPopulation > 1))
     {
         initWorldPopulation = CheckValidInitWorldPop(initWorldPopulation);
