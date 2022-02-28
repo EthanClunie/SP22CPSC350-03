@@ -11,7 +11,7 @@ class FileIO
     public:
         FileIO();
         ~FileIO();
-        string LoadMapFile(string inputMapFile);
+        void LoadMapFile(string inputMapFile, char **someGrid);
         void SaveCurrentState(char **currGameState);
     private:
 };

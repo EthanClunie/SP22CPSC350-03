@@ -12,6 +12,8 @@ class Game
         ~Game();
         void Play();
 
+        short GetNumRows();
+
     private:
         short numRows;
         short numColumns;
@@ -19,7 +21,7 @@ class Game
         char **gameGrid;
         char **copyGrid;
 
-        void GetNumRowsAndColumns();
+        void SetNumRowsAndColumns();
         void InitGrid();
         void DisplayGrid();
         double CheckValidInitWorldPop(double population);

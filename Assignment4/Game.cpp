@@ -17,7 +17,7 @@ using namespace std;
  */
 Game::Game()
 {
-    GetNumRowsAndColumns();
+    SetNumRowsAndColumns();
     InitGrid();
 }
 
@@ -38,11 +38,11 @@ Game::~Game()
 }
 
 /**
- * GetNumRowsAndColumns
+ * SetNumRowsAndColumns
  * @brief Prompts the user for the number of rows and columns for their grid
  * 
  */
-void Game::GetNumRowsAndColumns()
+void Game::SetNumRowsAndColumns()
 {
     cout << "Please, enter how many rows you would like: ";
     cin >> numRows;
@@ -102,29 +102,27 @@ void Game::Play()
     
     cout << foundTxt << endl;
 
-    if (foundTxt == -1)
+    if (foundTxt == -1) // Random game assignment
     {
-        // Random game assignment
+        // Obtains a valid input value for the initial world population density
+        cout << "Provide a decimal value for initial population density of the world (0 < population <= 1):" << endl;
+        cin >> initWorldPopulation;
+        
+        TODO1:
+        // handle potential errors w/ input as non-numbers (chars or strings)
+        if ((initWorldPopulation <= 0) || !(initWorldPopulation > 1))
+        {
+            initWorldPopulation = CheckValidInitWorldPop(initWorldPopulation);
+        }
+
+        DensityPlacement(initWorldPopulation);
 
     }
-    else
+    else // Use input as map file for simulated world
     {
-        // Use input as map file for simulated world
-
+        // fileHandler.LoadMapFile(userWorldChoice);
     }
 
-    // Obtains a valid input value for the initial world population density
-    cout << "Provide a decimal value for initial population density of the world (0 < population <= 1):" << endl;
-    cin >> initWorldPopulation;
-    
-    TODO1:
-    // handle potential errors w/ input as non-numbers (chars or strings)
-    if ((initWorldPopulation <= 0) || !(initWorldPopulation > 1))
-    {
-        initWorldPopulation = CheckValidInitWorldPop(initWorldPopulation);
-    }
-
-    DensityPlacement(initWorldPopulation);
     DisplayGrid();
 
     // Checks game rules/end conditions
@@ -316,4 +314,15 @@ void Game::DisplayGrid()
 		cout << endl;
 	}
     cout << endl;
+}
+
+/**
+ * GetNumRows
+ * @brief Returns the number of rows of the game grid
+ * 
+ * @return short: the number of rows in the game grid
+ */
+short Game::GetNumRows()
+{
+    return (this->numRows);
 }

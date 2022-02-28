@@ -2,6 +2,7 @@
 
 */
 #include <fstream>
+#include <iostream>
 
 #include "FileIO.h"
 
@@ -30,10 +31,15 @@ FileIO::~FileIO()
  * @param inputMapFile 
  * @return string 
  */
-string FileIO::LoadMapFile(string inputMapFile)
+void FileIO::LoadMapFile(string inputMapFile, char **someGrid)
 {
     ifstream inFile(inputMapFile, ios::in);
+    string line;
 
+    // Loop through each row of the grid and insert the provided lines from the input file
+    // in those rows. Hanlde potential errors with the input map having different dimensions.
+
+    inFile.close();
 }
 
 /**
