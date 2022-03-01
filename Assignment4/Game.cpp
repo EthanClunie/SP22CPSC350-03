@@ -275,8 +275,8 @@ void Game::DensityPlacement(double popDensity)
     int randomNum;
     srand(time(NULL));
 
-    int maxVal = 10;
-    int densityNum = popDensity * 10;
+    int maxVal = 100;
+    int densityNum = popDensity * 100;
 
     for (int iRow = 0; iRow < this->numRows; ++iRow)
     {
