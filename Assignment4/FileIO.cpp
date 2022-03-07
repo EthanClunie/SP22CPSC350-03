@@ -1,9 +1,6 @@
 /*
 
 */
-#include <fstream>
-#include <iostream>
-
 #include "FileIO.h"
 
 using namespace std;
@@ -26,18 +23,48 @@ FileIO::~FileIO()
 
 /**
  * LoadMapFile
- * @brief Loads a file for the initial game state from the user
+ * @brief Takes a user inputed text file and converts that into the initial game board
  * 
  * @param inputMapFile 
- * @return string 
+ * @param gameGrid 
  */
-void FileIO::LoadMapFile(string inputMapFile, char **someGrid)
+void FileIO::LoadMapFile(string inputMapFile, GameBoard gameGrid)
 {
     ifstream inFile(inputMapFile, ios::in);
-    string line;
+    string lineRow;
+    string lineColumn;
+
+    if (!inFile.is_open())
+    {
+        cout << "Error Opening inFile" << endl;
+        return;
+    }
+    
+    string userRows;
+    string userColumns;
+
+    getline(inFile, userRows);
+    getline(inFile, userColumns);
+
+    int usrRow = stoi(userRows); // string to int type cast
+    int usrCol = stoi(userColumns); // string to int type cast
+    // Set someGrid rows and columns as above
+    // **someGrid->InitGridFromFile(userRows, userColumns);
 
     // Loop through each row of the grid and insert the provided lines from the input file
-    // in those rows. Hanlde potential errors with the input map having different dimensions.
+    // in those rows. Handle potential errors with the input map having different dimensions.
+
+    int iCol = 0;
+    while (getline(inFile, lineRow))
+    {
+        for (int iRow = 0; iRow < lineRow.length(); ++iRow)
+        {
+            // Take each char in lineRow[i] and pass to **someGrid
+            // gameGrid[iRow][iCol] = lineRow[iRow];
+        }
+        ++iCol;
+    }  
+
 
     inFile.close();
 }
@@ -48,9 +75,10 @@ void FileIO::LoadMapFile(string inputMapFile, char **someGrid)
  * 
  * @param fileToSave 
  */
-void FileIO::SaveCurrentState(char **currGameState)
+void FileIO::SaveCurrentState(GameBoard currGameState)
 {
     string outputFileName = "save.txt";
     ofstream outFile(outputFileName, ios::out);
 
+    outFile.close();
 }

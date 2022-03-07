@@ -2,6 +2,13 @@
 Header file for Game class.
 Contains the function definitions and any necessary private members
 */
+#if !defined(GAME_H)
+#define GAME_H
+
+#include <iostream>
+#include <string>
+
+#include "GameBoard.h"
 
 using namespace std;
 
@@ -12,23 +19,22 @@ class Game
         ~Game();
         void Play();
 
-        short GetNumRows();
+        void SwapGrids(GameBoard Grid1, GameBoard Grid2);
 
     private:
-        short numRows;
-        short numColumns;
+        GameBoard gameGrid;
+        GameBoard copyGrid;
+        GameBoard boundaryGrid; // will be implemented differently for each game mode
 
-        char **gameGrid;
-        char **copyGrid;
-
-        void SetNumRowsAndColumns();
-        void InitGrid();
+        void InitGridRand();
+        
         void DisplayGrid();
-        double CheckValidInitWorldPop(double population);
-        void SwapGridPointer(char **Grid1, char **Grid2);
 
-        short FindNumNeighbors() {} //no implementation in this class
-        void DensityPlacement(double popDensity);
+        int FindNumNeighbors() {} //no implementation in this class
         bool AllDead();
         bool HasStagnated();
+
+        int DetermineGameType();
 };
+
+#endif
