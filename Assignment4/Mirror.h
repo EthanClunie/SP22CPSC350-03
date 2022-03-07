@@ -1,7 +1,7 @@
 #if !defined(MIRROR_H)
 #define MIRROR_H
 
-#include "Doughnut.h"
+#include "Game.h"
 
 class Mirror
 {

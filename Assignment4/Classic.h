@@ -11,8 +11,8 @@ using namespace std;
 class Classic
 {
     public:
-        int FindNumNeighbors();
-        GameBoard CreateGridWithBoundaries(GameBoard boardWithoutBoundaries);
+        int FindNumNeighbors(int currRowPos, int currColPos);
+        void CreateGridWithBoundaries(GameBoard boardWithoutBoundaries);
         
     private:
         GameBoard gridWithBoundaries;

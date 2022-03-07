@@ -1,7 +1,10 @@
 /*
 
 */
+#include <chrono>
 #include "FileIO.h"
+#include "Classic.h"
+#include "Doughnut.h"
 #include "Mirror.h"
 
 using namespace std;
@@ -40,9 +43,6 @@ void Game::InitGridRand()
  */
 void Game::Play()
 {
-    // TEST STUFF
-    // DisplayGrid();
-
     int gameType = DetermineGameType();
 
     FileIO fileHandler;
@@ -62,65 +62,109 @@ void Game::Play()
     {
         // Creates a grid based on user input for row/column amounts
         InitGridRand();
-
     }
     else // Use input as map file for simulated world
     {
-        // fileHandler.LoadMapFile(userWorldChoice, gameGrid);
-
+        fileHandler.LoadMapFile(userWorldChoice, gameGrid);
+        copyGrid = gameGrid;
     }
 
-    // Displays the current generation
-    cout << "Gen ";
-    cout << generationNumber << endl;
-    DisplayGrid();
-
-    TODO3:
-    if (gameType == 1)
+    int emergencyBreakOut = 0;
+    // Actual game loop beginning. Continues looping until game over
+    while (!HasStagnated() || !AllDead()) // Checks game rules/end conditions
     {
-        // aClassic classicGame;
+        // Displays the current generation
+        cout << "Gen ";
+        cout << generationNumber << endl;
+        gameGrid.DisplayGrid();
 
-    }
-
-    else if (gameType == 2)
-    {
-        // TODO
-        // create object of Doughnut type
-    }
-
-    else if (gameType == 3)
-    {
-        // TODO
-        // create object of Mirror type
-    }
-    else
-    {
-        cout << "Oh god no. (File: " << __FILE__ << ", Line: " << __LINE__ << ")" << endl;
-    }
-    
-    // Checks game rules/end conditions
-    if (AllDead() || HasStagnated())
-    {
-        // Halt the simulation
-
-        
-
-        TODO2:
-        // Prompt the user to press "ENTER" to exit the program
-        char exitChar;
-        
-        while (true)
+        if (emergencyBreakOut >= 20) // In case shit gets bad
         {
-            cout << "Press the ENTER key to exit the simulation." << endl;
-            // Read for the ASCII value of the ENTER key, not for '\n' or whitespace
-            cin.ignore();
-            cin >> exitChar;
+            cout << "Hit ceiling run amount (20)." << endl;
+            break;
+        }
 
-            if (exitChar == 'r') // TODO : hopefully this is the ascii value
+        TODO3:
+        if (gameType == 1)
+        {
+            Classic classicGame;
+            classicGame.CreateGridWithBoundaries(gameGrid);
+            int numNeighbors = 0;
+
+            for (int iRow = 0; iRow < gameGrid.GetNumRows(); ++iRow)
+	        {
+		        for (int iColumn = 0; iColumn < gameGrid.GetNumCols(); ++iColumn)
+		        {
+                    cout << "Test1: (File: " << __FILE__ << ", Line: " << __LINE__  << ")" << endl;
+                    numNeighbors = classicGame.FindNumNeighbors(iRow, iColumn);
+                    cout << "Test2: (File: " << __FILE__ << ", Line: " << __LINE__  << ")" << endl;
+                    
+                    // Handles next-gen changes based on numNeighbors in current generation for each location
+                    if (numNeighbors <= 1)
+                    {
+                        copyGrid.ChangeCurrElementPos(iRow, iColumn, '-');
+                    }
+                    else if (numNeighbors == 2)
+                    {
+                        copyGrid.ChangeCurrElementPos(iRow, iColumn, gameGrid.GetCharAt(iRow, iColumn));
+                    }
+                    else if (numNeighbors == 3)
+                    {
+                        copyGrid.ChangeCurrElementPos(iRow, iColumn, 'X');
+                    }
+                    else if (numNeighbors >= 4)
+                    {
+                        copyGrid.ChangeCurrElementPos(iRow, iColumn, '-');
+                    }
+                }
+            }
+            
+            SwapGrids(gameGrid, copyGrid);
+        }
+        else if (gameType == 2)
+        {
+            // TODO
+            // create object of Doughnut type
+            while (true)
             {
+                ++generationNumber;
                 break;
             }
+        }
 
+        else if (gameType == 3)
+        {
+            // TODO
+            // create object of Mirror type
+            while (true)
+            {
+                ++generationNumber;
+                break;
+            }
+        }
+        else
+        {
+            cout << "Invalid game mode." << endl;
+            gameType = DetermineGameType();
+        }
+        
+        ++generationNumber;
+        ++emergencyBreakOut;
+    }
+
+    TODO2:
+    // Prompt the user to press "ENTER" to exit the program
+    while (true)
+    {
+        string exitChar = " ";
+        cout << "Press the ENTER key to exit the simulation." << endl;
+        // Read for the ASCII value of the ENTER key, not for '\n' or whitespace
+        cin.ignore();
+        getline(cin, exitChar);
+
+        if (exitChar.length() < 1) // TODO : hopefully this is the ascii value
+        {
+            break;
         }
 
     }
@@ -154,7 +198,7 @@ bool Game::AllDead()
     int numEmptyLocations = 0;
     int totalNumLocations = (gameGrid.GetNumRows() * gameGrid.GetNumCols());
 
-    // Checks if all locations of previous grid are same as those of current grid
+    // Checks if all locations are empty
     for (int iRow = 0; iRow < gameGrid.GetNumRows(); ++iRow)
     {
         for (int iColumn = 0; iColumn < gameGrid.GetNumCols(); ++iColumn)
@@ -189,7 +233,7 @@ bool Game::AllDead()
  */
 bool Game::HasStagnated()
 {
-    bool hasStagnated;
+    bool hasStagnated = false;
     int numSameLocations = 0;
     int totalNumLocations = (gameGrid.GetNumRows() * gameGrid.GetNumCols());
 
@@ -205,36 +249,9 @@ bool Game::HasStagnated()
         }
     }
 
-    if (numSameLocations == totalNumLocations)
-    {
-        hasStagnated = true;
-    }
-    else
-    {
-        hasStagnated = false;
-    }
+    hasStagnated = (numSameLocations == totalNumLocations);
 
     return hasStagnated;
-}
-
-/**
- * DisplayGrid
- * @brief Displays the game grid
- * 
- */
-void Game::DisplayGrid()
-{
-    cout << endl;
-    cout << gameGrid.GetNumRows() << endl;
-	for (int iRow = 0; iRow < gameGrid.GetNumRows(); iRow++)
-	{
-		for (int iColumn = 0; iColumn < gameGrid.GetNumCols(); iColumn++)
-		{
-			cout << gameGrid.GetCharAt(iRow, iColumn);
-		}
-		cout << endl;
-	}
-    cout << endl;
 }
 
 /**

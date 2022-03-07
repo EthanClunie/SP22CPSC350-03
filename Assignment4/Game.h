@@ -24,11 +24,8 @@ class Game
     private:
         GameBoard gameGrid;
         GameBoard copyGrid;
-        GameBoard boundaryGrid; // will be implemented differently for each game mode
 
         void InitGridRand();
-        
-        void DisplayGrid();
 
         int FindNumNeighbors() {} //no implementation in this class
         bool AllDead();

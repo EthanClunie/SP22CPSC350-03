@@ -8,7 +8,7 @@ Contains the function definitions and any necessary private members
 #include <string>
 #include <fstream>
 #include <iostream>
-#include "Classic.h"
+#include "Game.h"
 
 using namespace std;
 

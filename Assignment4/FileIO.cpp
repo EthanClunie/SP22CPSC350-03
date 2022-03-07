@@ -49,7 +49,7 @@ void FileIO::LoadMapFile(string inputMapFile, GameBoard gameGrid)
     int usrRow = stoi(userRows); // string to int type cast
     int usrCol = stoi(userColumns); // string to int type cast
     // Set someGrid rows and columns as above
-    // **someGrid->InitGridFromFile(userRows, userColumns);
+    gameGrid.InitFileGrid(usrRow, usrCol);
 
     // Loop through each row of the grid and insert the provided lines from the input file
     // in those rows. Handle potential errors with the input map having different dimensions.
@@ -59,11 +59,11 @@ void FileIO::LoadMapFile(string inputMapFile, GameBoard gameGrid)
     {
         for (int iRow = 0; iRow < lineRow.length(); ++iRow)
         {
-            // Take each char in lineRow[i] and pass to **someGrid
-            // gameGrid[iRow][iCol] = lineRow[iRow];
+            // Take each char in lineRow[i] and pass to gameGrid
+            gameGrid.ChangeCurrElementPos(iRow, iCol, lineRow[iRow]);
         }
         ++iCol;
-    }  
+    }
 
 
     inFile.close();

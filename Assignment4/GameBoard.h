@@ -20,9 +20,11 @@ class GameBoard
 
         void ChangeCurrElementPos(int row, int col, char c);
 
+        void DisplayGrid();
+
     private:
-        int numRows;
-        int numColumns;
+        int numRows = 0;
+        int numColumns = 0;
         
         char **someGrid;
 

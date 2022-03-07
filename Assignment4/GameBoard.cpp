@@ -36,17 +36,20 @@ GameBoard::~GameBoard()
  */
 void GameBoard::InitGridOfKnownSize(int numOfRows, int numOfCols)
 {
+    this->numRows = numOfRows;
+    this->numColumns = numOfCols;
+
     // Allocated array of pointers to char in heap memory
-    this->someGrid = new char* [numOfRows];
-    for (int iRow = 0; iRow < numOfRows; ++iRow)
+    this->someGrid = new char* [this->numRows];
+    for (int iRow = 0; iRow < this->numRows; ++iRow)
     {
-        this->someGrid[iRow] = new char[numOfCols];  // Allocate an array of numRow characters
+        this->someGrid[iRow] = new char[this->numColumns];  // Allocate an array of numRow characters
     }
 
     // assign '-' to element of 2-D array someGrid indexed by iRow and iColumn
-	for (int iRow = 0; iRow < numOfRows; ++iRow)
+	for (int iRow = 0; iRow < this->numRows; ++iRow)
 	{
-		for (int iColumn = 0; iColumn < numOfCols; ++iColumn)
+		for (int iColumn = 0; iColumn < this->numColumns; ++iColumn)
 		{
 			this->someGrid[iRow][iColumn] = '-';
 		}
@@ -99,20 +102,24 @@ void GameBoard::InitGridRand()
  */
 void GameBoard::InitFileGrid(int numOfRows, int numOfCols)
 {
+    this->numRows = numOfRows;
+    this->numColumns = numOfCols;
+
     // Allocated array of pointers to char in heap memory
-    this->someGrid = new char* [numOfRows];
-    for (int iRow = 0; iRow < numOfRows; ++iRow) {
-        this->someGrid[iRow] = new char[numOfCols];  // Allocate an array of numRow characters
+    this->someGrid = new char* [this->numRows];
+    for (int iRow = 0; iRow < this->numRows; ++iRow) {
+        this->someGrid[iRow] = new char[this->numColumns];  // Allocate an array of numRow characters
     }
 
-    // assign '-' to element of 2-D array someGrid indexed by iRow and iColumn
-	for (int iRow = 0; iRow < numOfRows; ++iRow)
+    // assign '-' to element of 2-D array a_cGrid indexed by iRow and iColumn
+	for (int iRow = 0; iRow < this->numRows; ++iRow)
 	{
-		for (int iColumn = 0; iColumn < numOfCols; ++iColumn)
+		for (int iColumn = 0; iColumn < this->numColumns; ++iColumn)
 		{
 			this->someGrid[iRow][iColumn] = '-';
 		}
 	}
+
 }
 
 /**
@@ -127,6 +134,25 @@ void GameBoard::InitNumRowsAndColumns()
 
     cout << "Please, enter how many columns you would like: ";
     cin >> numColumns;
+}
+
+/**
+ * DisplayGrid
+ * @brief Displays whatever board this method is called on
+ * 
+ */
+void GameBoard::DisplayGrid()
+{
+    cout << endl;
+	for (int iRow = 0; iRow < this->numRows; iRow++)
+	{
+		for (int iColumn = 0; iColumn < this->numColumns; iColumn++)
+		{
+			cout << someGrid[iRow][iColumn];
+		}
+		cout << endl;
+	}
+    cout << endl;
 }
 
 /**
