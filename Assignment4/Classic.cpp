@@ -19,16 +19,16 @@ int Classic::FindNumNeighbors(int currRowPos, int currColPos)
     int colOnPadded = currColPos+1;
 
     // Check each position around some given (row, column) location
-    for (int iRow = currRowPos-1; iRow < currRowPos+2; iRow++)
+    for (int iRow = currRowPos; iRow <= currRowPos+2; iRow++)
     {
-        for (int iCol = currColPos-1; iCol < currColPos+2; iCol++)
+        for (int iCol = currColPos; iCol <= currColPos+2; iCol++)
         {
             if ((iRow == rowOnPadded) && (iCol == colOnPadded)) // exempts the given location
             {
                 continue;
             }
 
-            if (gridWithBoundaries.GetCharAt(iRow, iCol) == 'X') // Checks a position to see if located
+            if (gridWithBoundaries.GetCharAt(iRow, iCol) == 'X') // Checks a position to see if it is same as an 'X'
             {
                 ++totalNumNeighbors;
             }
@@ -66,7 +66,4 @@ void Classic::CreateGridWithBoundaries(GameBoard boardWithoutBoundaries)
             }
         }
     }
-
-    gridWithBoundaries.DisplayGrid();
 }
-    

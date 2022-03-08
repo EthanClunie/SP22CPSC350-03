@@ -227,11 +227,27 @@ void GameBoard::DensityPlacement(double popDensity)
     }
 }
 
+/**
+ * ChangeCurrElementPos
+ * @brief Changes the character at a given position with a given char
+ * 
+ * @param row 
+ * @param col 
+ * @param c 
+ */
 void GameBoard::ChangeCurrElementPos(int row, int col, char c)
 {
     someGrid[row][col] = c;
 }
 
+/**
+ * GetCharAt
+ * @brief Returns the character at some given grid position
+ * 
+ * @param row 
+ * @param col 
+ * @return char 
+ */
 char GameBoard::GetCharAt(int row, int col)
 {
     char elem;

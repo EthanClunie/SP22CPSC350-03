@@ -43,6 +43,7 @@ void Game::InitGridRand()
  */
 void Game::Play()
 {
+    // copyGrid = gameGrid;
     int gameType = DetermineGameType();
 
     FileIO fileHandler;
@@ -89,32 +90,41 @@ void Game::Play()
         {
             Classic classicGame;
             classicGame.CreateGridWithBoundaries(gameGrid);
-            int numNeighbors = 0;
-
+            cout << "TEST4: Element in gameGrid at position (1,1) change to \'j\'." << endl;
+            gameGrid.ChangeCurrElementPos(1,1,'j');
+            cout << "Changed element: " << gameGrid.GetCharAt(1,1) << endl;
+            gameGrid.DisplayGrid();
+            
             for (int iRow = 0; iRow < gameGrid.GetNumRows(); ++iRow)
 	        {
 		        for (int iColumn = 0; iColumn < gameGrid.GetNumCols(); ++iColumn)
 		        {
+                    int numNeighbors = 0;
                     cout << "Test1: (File: " << __FILE__ << ", Line: " << __LINE__  << ")" << endl;
                     numNeighbors = classicGame.FindNumNeighbors(iRow, iColumn);
+                    cout << "NumNeighbors: " << numNeighbors << endl;
                     cout << "Test2: (File: " << __FILE__ << ", Line: " << __LINE__  << ")" << endl;
                     
                     // Handles next-gen changes based on numNeighbors in current generation for each location
                     if (numNeighbors <= 1)
                     {
                         copyGrid.ChangeCurrElementPos(iRow, iColumn, '-');
+                        cout << "1 or 0 neighbors" << endl;
                     }
                     else if (numNeighbors == 2)
                     {
                         copyGrid.ChangeCurrElementPos(iRow, iColumn, gameGrid.GetCharAt(iRow, iColumn));
+                        cout << "2 neighbors" << endl;
                     }
                     else if (numNeighbors == 3)
                     {
                         copyGrid.ChangeCurrElementPos(iRow, iColumn, 'X');
+                        cout << "3 neighbors" << endl;
                     }
                     else if (numNeighbors >= 4)
                     {
                         copyGrid.ChangeCurrElementPos(iRow, iColumn, '-');
+                        cout << "4 or more neighbors" << endl;
                     }
                 }
             }
