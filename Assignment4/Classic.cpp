@@ -44,19 +44,20 @@ int Classic::FindNumNeighbors(int currRowPos, int currColPos)
  * 
  * @param boardWithoutBoundaries 
  */
-void Classic::CreateGridWithBoundaries(GameBoard boardWithoutBoundaries)
+GameBoard Classic::CreateGridWithBoundaries(GameBoard boardWithoutBoundaries)
 {
     int numRowsActualGrid = boardWithoutBoundaries.GetNumRows();
     int numColsActualGrid = boardWithoutBoundaries.GetNumCols();
 
     gridWithBoundaries.InitGridOfKnownSize(numRowsActualGrid + 2, numColsActualGrid + 2);
     
-    for (int iRow = 0; iRow < (gridWithBoundaries.GetNumRows()); ++iRow)
+    for (int iRow = 0; iRow <= (gridWithBoundaries.GetNumRows()); ++iRow)
     {
-        for (int iCol = 0; iCol < (gridWithBoundaries.GetNumCols()); ++iCol)
+        for (int iCol = 0; iCol <= (gridWithBoundaries.GetNumCols()); ++iCol)
         {
-            if ((iRow == 0) || (iCol == 0) || (iRow == gridWithBoundaries.GetNumRows()-1) || (iCol == gridWithBoundaries.GetNumCols()-1))
+            if ((iRow == 0) || (iCol == 0) || (iRow == (gridWithBoundaries.GetNumRows()-1)) || (iCol == (gridWithBoundaries.GetNumCols()-1)))
             {
+                // cout << "NumRows Test: " << gridWithBoundaries.GetNumRows() << endl;
                 gridWithBoundaries.ChangeCurrElementPos(iRow, iCol, '-');
             }
             else
@@ -66,4 +67,7 @@ void Classic::CreateGridWithBoundaries(GameBoard boardWithoutBoundaries)
             }
         }
     }
+
+    gridWithBoundaries.DisplayGrid();
+    return gridWithBoundaries;
 }

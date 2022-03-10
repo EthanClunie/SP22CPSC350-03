@@ -43,8 +43,13 @@ void Game::InitGridRand()
  */
 void Game::Play()
 {
-    // copyGrid = gameGrid;
     int gameType = DetermineGameType();
+    // TODO :
+    /*
+    Ask the user if they want a brief pause between generations,
+    if they want to press ENTER to display the next generation (everytime),
+    or if they want to output everything to a file (in which case, prompt for a file name).
+    */
 
     FileIO fileHandler;
 
@@ -85,18 +90,26 @@ void Game::Play()
             break;
         }
 
-        TODO3:
         if (gameType == 1)
         {
             Classic classicGame;
-            classicGame.CreateGridWithBoundaries(gameGrid);
-            cout << "TEST4: Element in gameGrid at position (1,1) change to \'j\'." << endl;
-            gameGrid.ChangeCurrElementPos(1,1,'j');
-            cout << "Changed element: " << gameGrid.GetCharAt(1,1) << endl;
-            gameGrid.DisplayGrid();
+
+            // TODO : 
+            // Fix error with assigning the created board to boardWithBoundaries
+            boardWithBoundaries = classicGame.CreateGridWithBoundaries(gameGrid);
+            // boardWithBoundaries.DisplayGrid();
+            // gameGrid.DisplayGrid();
+
+            // TODO : 
+            // GetCharAt() having issues with accessing the proper memory locations?
+            char testChar = gameGrid.GetCharAt(1,1);
+            cout << &testChar << endl;
+            cout << "(File: " << __FILE__ << ", Line: " << __LINE__  << ") Changed element: " << testChar << endl;
+            // gameGrid.DisplayGrid();
             
             for (int iRow = 0; iRow < gameGrid.GetNumRows(); ++iRow)
 	        {
+                cout << "(File: " << __FILE__ << ", Line: " << __LINE__  << ") gameGrid numRows: " << gameGrid.GetNumRows() << endl;
 		        for (int iColumn = 0; iColumn < gameGrid.GetNumCols(); ++iColumn)
 		        {
                     int numNeighbors = 0;

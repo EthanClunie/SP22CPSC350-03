@@ -12,7 +12,7 @@ class Classic
 {
     public:
         int FindNumNeighbors(int currRowPos, int currColPos);
-        void CreateGridWithBoundaries(GameBoard boardWithoutBoundaries);
+        GameBoard CreateGridWithBoundaries(GameBoard boardWithoutBoundaries);
         
     private:
         GameBoard gridWithBoundaries;

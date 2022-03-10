@@ -24,14 +24,17 @@ class Game
     private:
         GameBoard gameGrid;
         GameBoard copyGrid;
+        GameBoard boardWithBoundaries;
 
         void InitGridRand();
 
-        int FindNumNeighbors() {} //no implementation in this class
         bool AllDead();
         bool HasStagnated();
 
         int DetermineGameType();
+        char DetermineDelayType();              // to be implemented
+
+        void HandleDelayType(char delayType);   // to be implemented; can try the chrono library for the pause implementation
 };
 
 #endif

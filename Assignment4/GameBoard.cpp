@@ -53,6 +53,7 @@ void GameBoard::InitGridOfKnownSize(int numOfRows, int numOfCols)
 		{
 			this->someGrid[iRow][iColumn] = '-';
 		}
+        cout << endl;
 	}
 }
 
@@ -144,9 +145,9 @@ void GameBoard::InitNumRowsAndColumns()
 void GameBoard::DisplayGrid()
 {
     cout << endl;
-	for (int iRow = 0; iRow < this->numRows; iRow++)
+	for (int iRow = 0; iRow < this->GetNumRows(); iRow++)
 	{
-		for (int iColumn = 0; iColumn < this->numColumns; iColumn++)
+		for (int iColumn = 0; iColumn < this->GetNumCols(); iColumn++)
 		{
 			cout << someGrid[iRow][iColumn];
 		}
@@ -237,7 +238,7 @@ void GameBoard::DensityPlacement(double popDensity)
  */
 void GameBoard::ChangeCurrElementPos(int row, int col, char c)
 {
-    someGrid[row][col] = c;
+    this->someGrid[row][col] = c;
 }
 
 /**
@@ -251,6 +252,8 @@ void GameBoard::ChangeCurrElementPos(int row, int col, char c)
 char GameBoard::GetCharAt(int row, int col)
 {
     char elem;
-    elem = someGrid[row][col];
+    elem = this->someGrid[row][col];
+
+    // cout << "(File: " << __FILE__ << ", Line: " << __LINE__  << ") Test GetCharAt(): " << elem << endl;
     return elem;
 }
