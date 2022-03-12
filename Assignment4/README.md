@@ -4,8 +4,8 @@
 #### Ref for main.cpp: None
 #### Ref for FileHandler Class: Max Starreveld (for fileWriter.eof())
 #### Ref for GameSim Class: https://stackoverflow.com/questions/15672805/c-swapping-pointers, https://www.geeksforgeeks.org/rand-and-srand-in-ccpp/, https://stackoverflow.com/questions/12657962, how-do-i-generate-a-random-number-between-two-variables-that-i-have-stored, https://stackoverflow.com/questions/15672805/c-swapping-pointers, https://askubuntu.com/questions/906742/what-is-sh-1-pause-not-found
-#### Ref for Classic Class: None
-#### Ref for Doughnut Class: None
-#### Ref for Mirror Class: None
+#### Ref for GameModes Class: None
+#### Ref for GameBoards Class: None
+#### Ref for BoundaryModes.h: Visual Programming Course (Enums)
 ##### Emergency Exit strategy implemented in GameSim.cpp which doesn't allow the simulation to exceed 150 generations
 ##### Known Errors: Segmentation Fault when attempting at save to file. Otherwise, no known errors
