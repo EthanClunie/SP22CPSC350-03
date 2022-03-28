@@ -60,7 +60,7 @@ string FileProcessor::ReadFromFile()
         while (getline(inFile, line))
         {
             // Skip any comments in the file
-            if (line[0] == '#' || (line.find('/') != -1 && line[line.find('/')] == line[line.find('/')+1]))
+            if ((line.find('#') != -1) || (line.find('/') != -1 && line[line.find('/')] == line[line.find('/')+1]))
             {
                 // Comment found. Do nothing
             }

@@ -82,6 +82,11 @@ void Simulation::CheckFileContents()
         }
         else if (IsClosingDelimiter(c))
         {
+            if (delimiterStack.length() == 0)
+            {
+                throw runtime_error("ERROR: No opening delimiters on stack to match found closing delimiter");
+            }
+
             if (fileContents.empty() || !ArePair(delimiterStack.topValue(), c))
             {
                 if (!ArePair(c, delimiterStack.topValue()))
