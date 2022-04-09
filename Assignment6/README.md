@@ -16,4 +16,4 @@
 #### Ref for WindowTimesClass class : none
 #### Ref for Simulation class : None
 #### Ref for mainprogram : None
-#### Collaborators: None
+#### Collaborators: Samuel Bernsen
