@@ -31,9 +31,9 @@ class Simulation
         StudentTimes *studentTimes;
         WindowIdleTimes *windowTimes;
 
-        // Private dynamic int[] for the windows and private int to track current clock tick
-        
+        // Private dynamic int[] for the windows
         int *windowArray;
+        // Private int to track current clock tick
         int currClockTick;
 
         // Main program sections
@@ -41,6 +41,7 @@ class Simulation
         
         // Helper methods for readability
         void PushFileDataToStack(string file);
+        bool AreAllStudentsProcessed(int windowSize);
 
     public:
         // Constructors and destructors

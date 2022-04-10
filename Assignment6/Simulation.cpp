@@ -113,7 +113,7 @@ void Simulation::MainRegistrarLoop()
     int numVisitors = -1;
 
     // Main loop of the registrar metrics program
-    while (fileData->length() != 0)
+    while (true)
     {
         // Get the next clock time to check
         clockTimeToCheck = fileData->topValue();
@@ -142,7 +142,6 @@ void Simulation::MainRegistrarLoop()
             if (windowArray[i] == 0)
             {
                 windowTimes->UpdateIdleTime(i);
-                windowTimes->PrintIdleTimes();
                 if (!lineQueue->isEmpty())
                 {
                     windowArray[i] = lineQueue->dequeue();
@@ -163,9 +162,39 @@ void Simulation::MainRegistrarLoop()
         {
             studentTimes->IncrementStuTimeInLine(lineLength);
         }
+
+        // Breaks out of the main registrar loop depending on the conditions
+        if (AreAllStudentsProcessed(numWindows))
+        {
+            break;
+        }
         
         currClockTick++;
     }
+}
+
+
+/**
+ * AreAllStudentsProcessed
+ * @brief Returns a boolean which determines whether to exit the main program loop 
+ * depending on whether all students have been processed
+ * 
+ * @param windowSize 
+ * @return true 
+ * @return false 
+ */
+bool Simulation::AreAllStudentsProcessed(int windowSize)
+{
+    int zeroCounter = 0;
+    for (int i = 0; i < windowSize; i++)
+    {
+        if (windowArray[i] == 0)
+        {
+            zeroCounter++;
+        }
+    }
+
+    return ((lineQueue->length() == 0) && (fileData->length() == 0) && (zeroCounter == windowSize));
 }
 
 
