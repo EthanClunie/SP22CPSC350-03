@@ -151,7 +151,7 @@ void Simulation::MainRegistrarLoop()
             {
                 windowArray[i] -= 1;
             }
-                                            
+            
         }
 
         // Checks if there are still students in line

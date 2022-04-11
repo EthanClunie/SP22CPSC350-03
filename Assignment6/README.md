@@ -1,6 +1,8 @@
 ## Ethan Clunie
 ## Student ID: 2372711
-## Deliverables: mainprogram.cpp, Queue.h, ListNode.h, DLQueue.h, FileProcessor.h/cpp, Simulation.h/cpp
+## Deliverables: mainprogram.cpp, Queue.h, ListNode.h, LStack.h, Stack.h, DLQueue.h, 
+## DListNode.h, DLList.h, FileProcessor.h/cpp, Window.h/cpp, WindowTimes.h/cpp, Student.h/cpp, 
+## StudentTimes.h/cpp, Simulation.h/cpp
 #### Ref for mainprogram.cpp : None
 #### Ref for Queue.h : In-class Queue notes
 #### Ref for ListNode.h : In-class DLList notes
