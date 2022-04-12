@@ -16,11 +16,10 @@
 /**
  * @brief Construct a new Student:: Student object
  * 
- * @param windowTime 
  */
-Student::Student(int windowTime)
+Student::Student()
 {
-    totalWaitTime = windowTime;
+    totalWaitTime = 0;
 }
 
 

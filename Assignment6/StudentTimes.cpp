@@ -33,15 +33,14 @@ StudentTimes::~StudentTimes()
 
 
 /**
- * PushStuTimeOntoList
+ * IncrementStuTimeInList
  * @brief Pushes a new integer value representing the waitTime of a student in the queue
  * onto a doubly-linked list
  * 
- * @param stuToPush 
  */
-void StudentTimes::PushStuTimeOntoList(int stuToPush)
+void StudentTimes::IncrementStuTimeInList()
 {
-    Student *s = new Student(stuToPush);
+    Student *s = new Student();
     studentsList.push_back(*s);
 }
 

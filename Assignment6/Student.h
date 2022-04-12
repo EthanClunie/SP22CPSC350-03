@@ -19,7 +19,7 @@ class Student
         int totalWaitTime;
 
     public:
-        Student(int windowTime);
+        Student();
         ~Student();
 
         void IncrementTotalWaitTime();

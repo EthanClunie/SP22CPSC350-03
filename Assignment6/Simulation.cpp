@@ -72,16 +72,16 @@ void Simulation::ReportData()
     try
     {
         cout << setfill ('-') << setw (60) << "";
-        cout << endl << "Reporting data findings (in minutes):" << endl;
+        cout << endl << "Reporting data findings (in ticks):" << endl;
 
-        cout << "\t1) Mean student wait time: " << studentTimes->GetMeanStudentWaitTime() << endl;
-        cout << "\t2) Median student wait time: " << studentTimes->GetMedianStudentWaitTime()<< endl;
-        cout << "\t3) Longest student wait time: " << studentTimes->GetLongestStudentWaitTime() << endl;
-        cout << "\t4) Number of student wait times over 10 minutes: " << studentTimes->GetNumStuTimeOverTen() << endl;
+        cout << "\t1) Mean student wait time in queue: " << studentTimes->GetMeanStudentWaitTime() << endl;
+        cout << "\t2) Median student wait time in queue: " << studentTimes->GetMedianStudentWaitTime()<< endl;
+        cout << "\t3) Longest student wait time in queue: " << studentTimes->GetLongestStudentWaitTime() << endl;
+        cout << "\t4) Number of student times over 10 ticks: " << studentTimes->GetNumStuTimeOverTen() << endl;
         
         cout << "\t5) Mean window idle time: " <<  windowTimes->GetMeanWindowIdleTime() << endl;
         cout << "\t6) Longest window idle time: " << windowTimes->GetLongestWindowIdleTime() << endl;
-        cout << "\t7) Number of window idle times over 5 minutes: " <<  windowTimes->GetNumIdleTimesOverFive() << endl;
+        cout << "\t7) Number of window idle times over 5 ticks: " <<  windowTimes->GetNumIdleTimesOverFive() << endl;
         cout << setfill ('-') << setw (55) << "" << endl;
     }
     catch(const std::exception& e)
@@ -130,7 +130,7 @@ void Simulation::MainRegistrarLoop()
             // Loop through every single visitor and enqueue them onto the linkedQueue
             for (int i = 0; i < numVisitors; i++)
             {
-                studentTimes->PushStuTimeOntoList(fileData->topValue());
+                studentTimes->IncrementStuTimeInList();
                 lineQueue->enqueue(fileData->pop());
             }
         }

@@ -30,7 +30,7 @@ class StudentTimes
         StudentTimes();
         ~StudentTimes();
 
-        void PushStuTimeOntoList(int stuToPush);
+        void IncrementStuTimeInList();
         void IncrementStuTimeInLine(int sizeOfLine);
 
         double GetMeanStudentWaitTime();
