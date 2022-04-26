@@ -24,6 +24,8 @@ class Student
         void PrintInfo();
         void ChangeAdvisorID(int newAdvisorID);
 
+        void GetStudentInformation();
+
         int GetStuID();
 
     private:

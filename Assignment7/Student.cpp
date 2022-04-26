@@ -18,7 +18,7 @@
  */
 Student::Student()
 {
-    CreateNewStudent();
+    
 }
 
 
@@ -26,6 +26,13 @@ Student::~Student()
 {
 
 }
+
+
+void Student::GetStudentInformation()
+{
+    CreateNewStudent();
+}
+
 
 void Student::PrintInfo()
 {

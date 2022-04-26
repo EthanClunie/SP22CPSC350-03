@@ -66,9 +66,9 @@ void StudentRecords::DisplayStudentAdvisorInfo(int stuID)
  */
 void StudentRecords::AddStudentToRecord()
 {
-    Student *newStu = new Student();
-    std::cout << newStu->GetStuID() << std::endl;
-    TreeNode<Student> *newStuNode = new TreeNode<Student>(newStu->GetStuID(), *newStu);
+    Student newStu;
+    newStu.GetStudentInformation();
+    TreeNode<Student> *newStuNode = new TreeNode<Student>(newStu.GetStuID(), newStu);
     studentRecord->insert(newStuNode);
 }
 
