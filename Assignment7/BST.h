@@ -3,6 +3,8 @@
 #define BST_H
 
 #include "TreeNode.h"
+#include "Student.h"
+#include "Faculty.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -33,6 +35,12 @@ class BST
     TreeNode<E>* getRoot();
     int length();
     bool isEmpty();
+
+    void studentsInOrder(TreeNode<Student>* node);
+    void facultyInOrder(TreeNode<Faculty>* node);
+
+    void printStudentsInOrder();
+    void printFacultyInOrder();
   };
 
 /*
@@ -411,6 +419,66 @@ void BST<E>::postOrder(TreeNode<E>* node)
   postOrder(node->left);
   postOrder(node->right);
   std::cout << node->key << "-";
+}
+
+/*
+studentsInOrder
+Inorder traversal of students starting at some node.
+@param node: node to begin traversal
+*/
+template <typename E>
+void BST<E>::studentsInOrder(TreeNode<Student>* node)
+{
+  if (node == nullptr)
+  {
+    return;
+  }
+
+  studentsInOrder(node->left);
+  node->value.PrintStudentInfo();
+  std::cout << std::endl;
+  studentsInOrder(node->right);
+}
+
+/*
+facultyInOrder
+Inorder traversal of faculty starting at some node.
+@param node: node to begin traversal
+*/
+template <typename E>
+void BST<E>::facultyInOrder(TreeNode<Faculty>* node)
+{
+  if (node == nullptr)
+  {
+    return;
+  }
+
+  facultyInOrder(node->left);
+  node->value.PrintFacultyInfo();
+  std::cout << std::endl;
+  facultyInOrder(node->right);
+}
+
+/*
+printStudentsInOrder
+Caller for studentInOrder.
+*/
+template <typename E>
+void BST<E>::printStudentsInOrder()
+{
+  studentsInOrder(root);
+  std::cout << std::endl;
+}
+
+/*
+printFacultyInOrder
+Caller for facultyInOrder.
+*/
+template <typename E>
+void BST<E>::printFacultyInOrder()
+{
+  facultyInOrder(root);
+  std::cout << std::endl;
 }
 
 /*

@@ -21,12 +21,15 @@ class Student
         Student();
         ~Student();
 
-        void PrintInfo();
+        void PrintStudentInfo();
         void ChangeAdvisorID(int newAdvisorID);
 
         void GetStudentInformation();
 
         int GetStuID();
+        int GetAdvisorID();
+
+        bool operator < (Student const &stud);
 
     private:
         int studentID;

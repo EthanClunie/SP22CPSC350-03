@@ -23,6 +23,9 @@ class Simulation
         StudentRecords *stuTable;
         FacultyRecords *facTable;
 
+        StudentRecords *prevStuTable;
+        FacultyRecords *prevFacTable;
+
         bool ReadStudentTableFromFile();
         bool ReadFacultyTableFromFile();
         void WriteTablesToFile();
@@ -30,8 +33,15 @@ class Simulation
         int GetUserMenuChoice();
         void PrintMenuOptions();
 
-        int GetIDStudent();
-        int GetIDFaculty();
+        int GetNextID();
+
+        int stuTableSize;
+        int facTableSize;
+
+        int givenID;
+        int otherGivenID;
+        std::tuple<int, int> ids;
+        std::vector<int> memberList;
 
 };
 

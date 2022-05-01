@@ -35,6 +35,9 @@ Simulation::Simulation()
 {
     stuTable = new StudentRecords();
     facTable = new FacultyRecords();
+
+    stuTableSize = 0;
+    facTableSize = 0;
 }
 
 
@@ -60,12 +63,10 @@ void Simulation::Simulate()
     bool stuFileExists;
     bool facFileExists;
 
-    int stuToDelete;
-
     try
     {
         stuFileExists = ReadStudentTableFromFile();
-        // facFileExists = ReadFacultyTableFromFile();
+        facFileExists = ReadFacultyTableFromFile();
 
         do
         {
@@ -73,79 +74,167 @@ void Simulation::Simulate()
 
             switch (usrChoice)
             {
-            case 1:
-                // Print all students and their information (sorted by ascending id #)
+            case 1: // Print all students and their information (sorted by ascending id #)
+                if (stuTableSize < 1)
+                {
+                    cout << "No students to display" << endl;
+                }
+                else
+                {
+                    stuTable->DisplayAllStudentsInfo();
+                }
 
                 break;
 
-            case 2:
-                // Print all faculty and their information (sorted by ascending id #)
+            case 2: // Print all faculty and their information (sorted by ascending id #)
+                if (facTableSize < 1)
+                {
+                    cout << "No faculty to display" << endl;
+                }
+                else
+                {
+                    facTable->DisplayAllFacultyInfo();
+                }
 
                 break;
 
-            case 3:
-                // Find and display student information given the students id
+            case 3: // Find and display student information given the students id
+                givenID = GetNextID();
 
-                break;
-                
-            case 4:
-                // Find and display faculty information given the faculty id
-
-                break;
-
-            case 5:
-                // Given a student’s id, print the name and info of their faculty advisor
-
-                break;
-
-            case 6:
-                // Given a faculty id, print ALL the names and info of his/her advisees
-
-                break;
-
-            case 7:
-                // Add a new student
-                stuTable->AddStudentToRecord();
-                stuTable->DisplayStudentInfo(1);
-
-                break;
-
-            case 8:
-                // Delete a student given the id
-                stuToDelete = GetIDStudent();
-                stuTable->DeleteStudentFromRecord(stuToDelete);
-
-                break;
-
-            case 9:
-                // Add a new faculty member
-
-                break;
-
-            case 10:
-                // Delete a faculty member given the id
+                if (stuTable->IsInStuTable(givenID))
+                {
+                    stuTable->DisplayStudentInfo(givenID);
+                }
+                else
+                {
+                    cout << "No student with given id exists" << endl;
+                }
 
                 break;
                 
-            case 11:
-                // Change a student’s advisor given the student id and the new faculty id
+            case 4: // Find and display faculty information given the faculty id
+                givenID = GetNextID();
+
+                if (facTable->IsInFacTable(givenID))
+                {
+                    facTable->DisplayFacultyInfo(givenID);
+                }
+                else
+                {
+                    cout << "No faculty with given id" << endl;
+                }
+                
 
                 break;
 
-            case 12:
-                // Remove an advisee from a faculty member given the ids
+            case 5: // Given a student’s id, print the name and info of their faculty advisor
+                givenID = GetNextID();
 
                 break;
 
-            case 13:
-                // Rollback
+            case 6: // Given a faculty id, print ALL the names and info of his/her advisees
+                givenID = GetNextID();
+                
+                if (facTable->IsInFacTable(givenID))
+                {
+                    memberList = facTable->GetAdviseeList(givenID);
+                    stuTable->DisplayListOfStudents(memberList);
+                }
+                else
+                {
+                    cout << "No faculty with given id exists" << endl;
+                }
+                
+
+                break;
+
+            case 7: // Add a new student
+                if (facTableSize >= 1)
+                {
+                    ids = stuTable->AddStudentToRecord();
+                    facTable->AddToAdviseeList(get<0>(ids), get<1>(ids));
+                    stuTableSize++;
+                }
+                else
+                {
+                    cout << "Need a faculty member to act as advisee before adding students" << endl;
+                }
+
+                break;
+
+            case 8: // Delete a student given the id
+                givenID = GetNextID();
+                if (stuTable->IsInStuTable(givenID))
+                {
+                    stuTable->DeleteStudentFromRecord(givenID);
+                    
+                    stuTableSize--;
+                }
+                else
+                {
+                    cout << "No student with given ID" << endl;
+                }
+                
+
+                break;
+
+            case 9: // Add a new faculty member
+                facTable->AddFacultyToRecord();
+                facTableSize++;
+
+                break;
+
+            case 10: // Delete a faculty member given the id
+                givenID = GetNextID();
+
+                if (facTable->IsInFacTable(givenID))
+                {
+                    facTable->DeleteFacMember(givenID);
+                    facTableSize--;
+                }
+
+                break;
+                
+            case 11: // Change a student’s advisor given the student id and the new faculty id
+                givenID = GetNextID();
+                otherGivenID = GetNextID();
+
+                if (stuTable->IsInStuTable(givenID) && facTable->IsInFacTable(otherGivenID))
+                {
+                    stuTable->ChangeStudentAdvisor(givenID, otherGivenID);
+                }
+                else
+                {
+                    cout << "Provided an invalid ID" << endl;
+                }
+
+                break;
+
+            case 12: // Remove an advisee from a faculty member given the ids
+                givenID = GetNextID();
+                otherGivenID = GetNextID();
+
+                if (stuTable->IsInStuTable(givenID) && facTable->IsInFacTable(otherGivenID))
+                {
+                    // facTable->RemoveAdvisee(otherGivenID, givenID);
+                }
+                else
+                {
+                    cout << "Provided an invalid ID" << endl;
+                }
+
+                break;
+
+            case 13: // Rollback
                 // Use a stack to store function calls that need to be rolled back (store the previous 5 changes to BST's)
 
                 break;
 
-            case 14:
-                // Exit
+            case 14: // Exit
                 cout << "Exiting and saving current table states to files." << endl;
+
+                // Save the two "tables" (BST's) for StudentRecords and FacultyRecords to output files
+                WriteTablesToFile();
                 return;
             
             default:
@@ -161,7 +250,6 @@ void Simulation::Simulate()
         throw e.what();
     }
     
-    // Save the two "tables" (BST's) for StudentRecords and FacultyRecords to output files
 }
 
 
@@ -237,6 +325,7 @@ bool Simulation::ReadStudentTableFromFile()
 
     if (!inFile)
     {
+        cout << "No previous studentTable.dat file, creating empty tree." << endl;
         return false;
     }
 
@@ -266,6 +355,7 @@ bool Simulation::ReadFacultyTableFromFile()
 
     if (!inFile)
     {
+        cout << "No previous facultyTable.dat file, creating empty tree." << endl;
         return false;
     }
 
@@ -293,23 +383,25 @@ void Simulation::WriteTablesToFile()
         fstream outFileStu;
         fstream outFileFac;
 
-        outFileStu.open(STU_FILE_NAME, ios::out|ios::binary);
-        // outFileFac.open(FAC_FILE_NAME, ios::out|ios::binary);
+        outFileStu.open("studentTable.dat", ios::out|ios::binary);
+        outFileFac.open("facultyTable.dat", ios::out|ios::binary);
 
         if (!outFileStu)
         {
-            throw runtime_error("ERROR: Could not open studentTable.dat file");
+            cout << "ERROR: Could not open studentTable.dat file" << endl;
         }
         if (!outFileFac)
         {
-            throw runtime_error("ERROR: Could not open facultyTable.dat file");
+            cout << "ERROR: Could not open facultyTable.dat file" << endl;
         }
 
         outFileStu.write((char*)&stuTable, sizeof(stuTable));
-        // outFileFac.write((char*)&facTable, sizeof(facTable));
+        outFileFac.write((char*)&facTable, sizeof(facTable));
 
         outFileStu.close();
-        // outFileFac.close();
+        outFileFac.close();
+
+        cout << "Saved successfully" << endl;
     }
     catch(const exception& e)
     {
@@ -319,31 +411,15 @@ void Simulation::WriteTablesToFile()
 
 
 /**
- * GetIDStudent
- * @brief Returns a user given id number for a student
- * 
- * @return int 
- */
-int Simulation::GetIDStudent()
-{
-    int id;
-    cout << "Enter the ID of the Student you would like to access:" << endl << "ID: #";
-    cin >> id;
-
-    return id;
-}
-
-
-/**
- * GetIDFaculty
+ * GetNextID
  * @brief Returns a user given id number for a faculty member
  * 
  * @return int 
  */
-int Simulation::GetIDFaculty()
+int Simulation::GetNextID()
 {
     int id;
-    cout << "Enter the ID of the Faculty member you would like to access:" << endl << "ID: #";
+    cout << "Enter the ID of the next Person (Student/Faculty) you would like to access:" << endl << "ID: #";
     cin >> id;
 
     return id;

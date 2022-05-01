@@ -34,7 +34,7 @@ void Student::GetStudentInformation()
 }
 
 
-void Student::PrintInfo()
+void Student::PrintStudentInfo()
 {
     std::cout << "Student ID: " << studentID << std::endl;
     std::cout << "Student name: " << name << std::endl;
@@ -54,6 +54,17 @@ void Student::ChangeAdvisorID(int newAdvisorID)
 int Student::GetStuID()
 {
     return this->studentID;
+}
+
+
+int Student::GetAdvisorID()
+{
+    return advisorID;
+}
+
+bool Student::operator < (Student const &stud)
+{
+    return (this->studentID < stud.studentID);
 }
 
 

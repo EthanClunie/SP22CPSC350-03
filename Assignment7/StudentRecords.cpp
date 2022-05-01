@@ -31,7 +31,7 @@ StudentRecords::~StudentRecords()
  */
 void StudentRecords::DisplayAllStudentsInfo()
 {
-    
+    studentRecord->printStudentsInOrder();
 }
 
 
@@ -43,7 +43,7 @@ void StudentRecords::DisplayAllStudentsInfo()
  */
 void StudentRecords::DisplayStudentInfo(int stuID)
 {
-    studentRecord->find(stuID).PrintInfo();
+    studentRecord->find(stuID).PrintStudentInfo();
 }
 
 
@@ -55,7 +55,23 @@ void StudentRecords::DisplayStudentInfo(int stuID)
  */
 void StudentRecords::DisplayStudentAdvisorInfo(int stuID)
 {
+    studentRecord->find(stuID).GetAdvisorID();
+}
 
+
+/**
+ * DisplayListOfStudents
+ * @brief Prints the information of a given list of students
+ * 
+ * @param stuList 
+ */
+void StudentRecords::DisplayListOfStudents(std::vector<int> stuList)
+{
+    for (int i = 0; i < stuList.size(); ++i)
+    {
+        studentRecord->find(stuList[i]).PrintStudentInfo();
+        std::cout << std::endl;
+    }
 }
 
 
@@ -63,13 +79,18 @@ void StudentRecords::DisplayStudentAdvisorInfo(int stuID)
  * AddStudentToRecord
  * @brief Adds a Student object to the studentRecord BST
  * 
+ * @return std::tuple<int, int>
  */
-void StudentRecords::AddStudentToRecord()
+std::tuple<int, int> StudentRecords::AddStudentToRecord()
 {
     Student newStu;
     newStu.GetStudentInformation();
     TreeNode<Student> *newStuNode = new TreeNode<Student>(newStu.GetStuID(), newStu);
     studentRecord->insert(newStuNode);
+
+    std::tuple<int, int> result(newStu.GetStuID(), newStu.GetAdvisorID());
+
+    return result;
 }
 
 
@@ -86,6 +107,7 @@ void StudentRecords::DeleteStudentFromRecord(int stuID)
     {
         std::cout << "Failed to delete student with ID#: " << stuID << std::endl;
     }
+    // Update faculty records accordingly
 }
 
 
@@ -99,4 +121,29 @@ void StudentRecords::DeleteStudentFromRecord(int stuID)
 void StudentRecords::ChangeStudentAdvisor(int stuID, int newFacultyID)
 {
     studentRecord->find(stuID).ChangeAdvisorID(newFacultyID);
+    // Still need to change their advisor in the facultyrecords
+}
+
+
+/**
+ * GetStuTableSize
+ * @brief Returns the number of values within the studentRecord
+ * 
+ * @return int 
+ */
+int StudentRecords::GetStuTableSize()
+{
+    return studentRecord->length();
+}
+
+
+bool StudentRecords::IsInStuTable(int stuID)
+{
+    return (studentRecord->contains(stuID));
+}
+
+
+bool StudentRecords::StuIDLessThan(Student stu1, Student stu2)
+{
+    return (stu1.GetStuID() < stu2.GetStuID());
 }
