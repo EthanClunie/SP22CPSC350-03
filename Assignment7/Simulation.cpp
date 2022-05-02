@@ -11,18 +11,6 @@
  */
 #include "Simulation.h"
 
-/* TODO:
-- Implement Student class
-- Implement StudentRecords class
-- Implement Faculty class
-- Implement FacultyRecords class
-
-- Ensure that changes made to either the StudentRecords or FacultyRecords will also reflect in the other record as needed
-    > Adding a Student to StudentRecords should also add to the corresponding Faculty member's list of advisees
-    
-- Implement all menu options fully
-*/
-
 using namespace std;
 
 
@@ -36,8 +24,8 @@ Simulation::Simulation()
     stuTable = new StudentRecords();
     facTable = new FacultyRecords();
 
-    stuTableSize = 0;
-    facTableSize = 0;
+    prevStuTables = new DLList<StudentRecords>();
+    prevFacTables = new DLList<FacultyRecords>();
 }
 
 
@@ -75,7 +63,7 @@ void Simulation::Simulate()
             switch (usrChoice)
             {
             case 1: // Print all students and their information (sorted by ascending id #)
-                if (stuTableSize < 1)
+                if (stuTable->GetStuTableSize() == 0)
                 {
                     cout << "No students to display" << endl;
                 }
@@ -87,7 +75,7 @@ void Simulation::Simulate()
                 break;
 
             case 2: // Print all faculty and their information (sorted by ascending id #)
-                if (facTableSize < 1)
+                if (facTable->GetFacTableSize() == 0)
                 {
                     cout << "No faculty to display" << endl;
                 }
@@ -123,7 +111,6 @@ void Simulation::Simulate()
                 {
                     cout << "No faculty with given id" << endl;
                 }
-                
 
                 break;
 
@@ -149,16 +136,17 @@ void Simulation::Simulate()
                 break;
 
             case 7: // Add a new student
-                if (facTableSize >= 1)
-                {
-                    ids = stuTable->AddStudentToRecord();
-                    facTable->AddToAdviseeList(get<0>(ids), get<1>(ids));
-                    stuTableSize++;
-                }
-                else
+                if (facTable->GetFacTableSize() == 0)
                 {
                     cout << "Need a faculty member to act as advisee before adding students" << endl;
                 }
+                else
+                {
+                    ids = stuTable->AddStudentToRecord();
+                    facTable->AddToAdviseeList(get<0>(ids), get<1>(ids));
+                }
+
+                StoreCurrTblStates();
 
                 break;
 
@@ -167,20 +155,20 @@ void Simulation::Simulate()
                 if (stuTable->IsInStuTable(givenID))
                 {
                     stuTable->DeleteStudentFromRecord(givenID);
-                    
-                    stuTableSize--;
                 }
                 else
                 {
                     cout << "No student with given ID" << endl;
                 }
-                
 
+                StoreCurrTblStates();
+                
                 break;
 
             case 9: // Add a new faculty member
                 facTable->AddFacultyToRecord();
-                facTableSize++;
+
+                StoreCurrTblStates();
 
                 break;
 
@@ -190,8 +178,9 @@ void Simulation::Simulate()
                 if (facTable->IsInFacTable(givenID))
                 {
                     facTable->DeleteFacMember(givenID);
-                    facTableSize--;
                 }
+
+                StoreCurrTblStates();
 
                 break;
                 
@@ -208,6 +197,8 @@ void Simulation::Simulate()
                     cout << "Provided an invalid ID" << endl;
                 }
 
+                StoreCurrTblStates();
+
                 break;
 
             case 12: // Remove an advisee from a faculty member given the ids
@@ -223,11 +214,14 @@ void Simulation::Simulate()
                     cout << "Provided an invalid ID" << endl;
                 }
 
+                StoreCurrTblStates();
+
                 break;
 
             case 13: // Rollback
-                // Use a stack to store function calls that need to be rolled back (store the previous 5 changes to BST's)
-
+                cout << "Rolling back the last " << numChanges << " database changes." << endl;
+                Rollback();
+                
                 break;
 
             case 14: // Exit
@@ -308,6 +302,37 @@ void Simulation::PrintMenuOptions()
     cout << "\tOption 14: Exit" << endl;
 
     cout << setfill ('-') << setw (60) << "" << endl;
+}
+
+
+void Simulation::StoreCurrTblStates()
+{
+    if (numChanges >= MAX_QUEUE_SIZE)
+    {
+        LimitTblSizes();
+    }
+    numChanges++;
+    prevStuTables->insertBack(*stuTable);
+    prevFacTables->insertBack(*facTable);
+}
+
+
+void Simulation::LimitTblSizes()
+{
+    numChanges--;
+    prevStuTables->removeFront();
+    prevFacTables->removeFront();
+}
+
+
+void Simulation::Rollback()
+{
+    for (int i = 0; i < numChanges; ++i)
+    {
+        *stuTable = prevStuTables->removeBack();
+        *facTable = prevFacTables->removeBack();
+    }
+    numChanges = 0;
 }
 
 

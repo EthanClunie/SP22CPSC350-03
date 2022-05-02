@@ -4,7 +4,7 @@
 
 Faculty::Faculty()
 {
-
+    
 }
 
 
@@ -32,6 +32,7 @@ void Faculty::PrintFacultyInfo()
     {
         std::cout << adviseesList[i] << ", ";
     }
+    std::cout << std::endl;
 }
 
 
