@@ -11,3 +11,4 @@
 #### Ref for Faculty class : None
 #### Ref for StudentRecords class : None
 #### Ref for FacultyRecords class : None
+#### Known Errors: Program allows addition of students and faculty. However, adviseeList in faculty objects deletes after being added to. Also, could not implement Rollback() or serialization. Will resubmit later.
