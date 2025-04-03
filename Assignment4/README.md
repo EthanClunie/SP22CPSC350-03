@@ -1,5 +1,5 @@
 ## Ethan Clunie, Samuel Bernsen
-## Student ID: 2372711(Ethan), 2367195(Samuel)
+## Description: This project is an implementation of Conway's Game of Life simulation using the C++ programming language. We created this project for our Data Structures and Algorithms course and implemented three "game modes": Classic, Donut, and Mirror. Each game mode will change how border behaviors occur within the simulation.
 ## Deliverables: mainprogram.cpp, FileIO.h/cpp, Game.h/cpp, Classic.h/cpp, Doughnut.h/cpp, Mirror.h/cpp
 #### Ref for main.cpp: None
 #### Ref for FileHandler Class: Max Starreveld (for fileWriter.eof())
